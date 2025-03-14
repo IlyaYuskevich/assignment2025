@@ -1,0 +1,93 @@
+openapi: "3.0.3"
+info:
+  title: "Application API"
+  description: "Application API"
+  version: "1.0.0"
+servers:
+  - url: "http://0.0.0.0:8080"
+paths:
+  /facts:
+    post:
+      summary: Fetch a random fact and shorten the URL
+      description: Fetches a random fact from the Useless Facts API, stores it, and returns it.
+      responses:
+        '200':
+          description: Successfully fetched and stored fact
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fact'
+    get:
+      summary: Return all cached facts
+      description: Returns all cached facts without incrementing the access count.
+      responses:
+        '200':
+          description: List of all cached facts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fact'
+
+  /facts/{shortenedUrl}:
+    get:
+      summary: Return a single cached fact
+      description: Returns the cached fact and increments the access count.
+      parameters:
+        - in: path
+          name: shortenedUrl
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Cached fact retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fact'
+        '404':
+          description: Fact not found
+
+  /admin/statistics:
+    get:
+      summary: Access statistics
+      description: Provides access statistics for all cached facts.
+      responses:
+        '200':
+          description: Access statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Statistic'
+
+components:
+  schemas:
+    Fact:
+      type: object
+      properties:
+        id:
+          type: string
+        text:
+          type: string
+        source:
+          type: string
+        source_url:
+          type: string
+          format: uri
+        language:
+          type: string
+        permalink:
+          type: string
+          format: uri
+
+    Statistic:
+      type: object
+      properties:
+        fact_id:
+          type: string
+        access_count:
+          type: integer
