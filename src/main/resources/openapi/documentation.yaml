@@ -29,6 +29,17 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Fact'
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+          description: The number of facts to skip before starting to collect the result set
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: The numbers of facts to return
 
   /facts/{shortenedUrl}:
     get:
@@ -81,6 +92,9 @@ components:
         language:
           type: string
         permalink:
+          type: string
+          format: uri
+        shortUrl:
           type: string
           format: uri
 

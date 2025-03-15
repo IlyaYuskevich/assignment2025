@@ -1,7 +1,8 @@
 package com.challenge
 
 import com.challenge.model.Fact
-import com.challenge.model.Facts
+import com.challenge.model.FactsApi
+import com.challenge.storage.FactStorage
 import io.ktor.client.call.*
 import io.ktor.client.plugins.resources.*
 import io.ktor.http.*
@@ -12,22 +13,30 @@ import io.ktor.server.routing.*
 fun Application.configureRouting() {
 
     routing {
+        route("/facts") {
+            post {
+                val randomFact = client.get(FactsApi.RandomFact()).body<Fact>()
+                FactStorage.addFact(randomFact)
+                call.respond(randomFact)
+            }
 
-        post("/facts") {
-            val randomFact = client.get(Facts.RandomFact()).body<Fact>()
-            call.respond(randomFact)
+            get("{shortId}") {
+                call.parameters["shortId"]?.let {
+                    call.respond(FactStorage.getFact(it))
+                }
+            }
+
+            get {
+                val offset = call.queryParameters["offset"]?.toInt() ?: 0
+                val limit = call.queryParameters["limit"]?.toInt() ?: 10
+                call.respond(FactStorage.getFacts(offset, limit))
+            }
         }
 
-        get("/facts/{shortenedUrl}") {
-            call.respond(HttpStatusCode.OK)
-        }
-
-        get("/facts") {
-            call.respondText("Hey hey")
-        }
-
-        get("/admin/statistics") {
-            call.respond(HttpStatusCode.OK)
+        route("/admin") {
+            get("/statistics") {
+                call.respond(HttpStatusCode.OK)
+            }
         }
     }
 }

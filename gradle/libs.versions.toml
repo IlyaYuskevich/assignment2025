@@ -15,9 +15,11 @@ logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "lo
 ktor-server-config-yaml = { module = "io.ktor:ktor-server-config-yaml", version.ref = "ktor-version" }
 ktor-server-test-host = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor-version" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin-version" }
-ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "kotlin-version" }
-ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "kotlin-version" }
-ktor-client-content-negotiation = {module = "io.ktor:ktor-client-content-negotiation", version.ref = "kotlin-version"}
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor-version" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor-version" }
+ktor-client-content-negotiation = {module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor-version"}
+ktor-server-call-logger = {module = "io.ktor:ktor-server-call-logging", version.ref = "ktor-version"}
+nanoid = {module = "io.viascom.nanoid:nanoid", version = "1.0.1"}
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-version" }
