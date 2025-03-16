@@ -7,8 +7,12 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
+    AppConfig.init(environment)
+
     configureHTTP()
     configureRouting()
     configureSerialization()
-    configureLogging()
+    configureLogging(AppConfig.logLevel)
 }
+
+

@@ -4,8 +4,8 @@ import io.ktor.server.application.*
 import io.ktor.server.plugins.calllogging.*
 import org.slf4j.event.Level
 
-fun Application.configureLogging() {
+fun Application.configureLogging(logLevel: Level) {
     install(CallLogging) {
-        level = Level.INFO
+        level = logLevel
     }
 }

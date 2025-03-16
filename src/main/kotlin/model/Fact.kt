@@ -1,9 +1,10 @@
 package com.challenge.model
 
+import com.challenge.AppConfig
 import io.ktor.resources.*
 import io.viascom.nanoid.NanoId
 import kotlinx.serialization.Serializable
-
+import kotlinx.serialization.Transient
 
 @Serializable
 class Fact(
@@ -13,8 +14,11 @@ class Fact(
     val sourceUrl: String,
     val language: String,
     val permalink: String,
+
+    @Transient
     private val shortId: String = NanoId.generate(7),
-    val shortUrl: String = "http://0.0.0.0:8080/facts/${shortId}"
+
+    val shortUrl: String = "${AppConfig.baseUrl}/facts/${shortId}"
 ) {
     fun getShortId(): String = shortId
 }
