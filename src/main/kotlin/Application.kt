@@ -1,5 +1,6 @@
 package com.challenge
 
+import com.challenge.plugins.*
 import io.ktor.server.application.*
 
 fun main(args: Array<String>) {
@@ -10,9 +11,11 @@ fun Application.module() {
     AppConfig.init(environment)
 
     configureHTTP()
-    configureRouting()
+    configureSecurity(AppConfig.accessToken)
     configureSerialization()
+    configureResources()
     configureLogging(AppConfig.logLevel)
+    configureRoutes()
 }
 
 
