@@ -3,7 +3,6 @@ package com.challenge.model
 import com.challenge.AppConfig
 import io.viascom.nanoid.NanoId
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 
 @Serializable
 data class Fact(
@@ -13,11 +12,8 @@ data class Fact(
     val sourceUrl: String,
     val language: String,
     val permalink: String,
+    val shortId: String = NanoId.generate(7),
 
-    @Transient
-    private val shortId: String = NanoId.generate(7),
-
-    val shortUrl: String = "${AppConfig.baseUrl}/facts/${shortId}"
-) {
-    fun getShortId(): String = shortId
+    ) {
+    val shortUrl: String get() = "${AppConfig.baseUrl}/facts/${shortId}"
 }

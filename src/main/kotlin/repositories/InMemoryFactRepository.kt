@@ -1,18 +1,17 @@
-package com.challenge.storage
+package com.challenge.repositories
 
 import com.challenge.resources.SortOrder
 import com.challenge.model.Fact
 import com.challenge.model.FactStats
-import com.challenge.repositories.FactRepository
 import io.ktor.server.plugins.*
 import io.ktor.util.collections.*
 
-object InMemoryFactRepository : FactRepository {
+class InMemoryFactRepository : FactRepository {
     private val facts = ConcurrentMap<String, Fact>()
     private val accessStats = ConcurrentMap<String, Int>()
 
     override fun addFact(fact: Fact) {
-        this.facts[fact.getShortId()] = fact
+        this.facts[fact.shortId] = fact
     }
 
     override fun getFact(shortId: String): Fact {
@@ -27,7 +26,7 @@ object InMemoryFactRepository : FactRepository {
 
     override fun getStatistics(offset: Int, limit: Int, sort: SortOrder?): List<FactStats> {
         return this.facts.values
-            .map { FactStats(it, this.accessStats[it.getShortId()] ?: 0) }
+            .map { FactStats(it, this.accessStats[it.shortId] ?: 0) }
             .let { list ->
                 when (sort) {
                     SortOrder.DESC -> list.sortedBy { it.accessCount }.reversed()
