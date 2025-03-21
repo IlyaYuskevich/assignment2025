@@ -4,6 +4,7 @@ import com.challenge.mocks.configureExternalServices
 import com.challenge.mocks.createConfigMock
 import com.challenge.mocks.createTestClient
 import com.challenge.model.Fact
+import com.challenge.model.PaginatedResult
 import com.challenge.resources.Facts
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -41,8 +42,8 @@ class FactsApiTest {
         }
         client.get(Facts()).apply {
             assertEquals(HttpStatusCode.OK, status)
-            val facts = body<List<Fact>>()
-            assertEquals(facts.size, 2)
+            val facts = body<PaginatedResult<Fact>>()
+            assertEquals(facts.count, 2)
         }
         client.get(Facts.ShortId(shortId = firstFact.shortId)).apply {
             assertEquals(HttpStatusCode.OK, status)

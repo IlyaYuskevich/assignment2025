@@ -3,6 +3,7 @@ package com.challenge.repositories
 import com.challenge.resources.SortOrder
 import com.challenge.model.Fact
 import com.challenge.model.FactStats
+import com.challenge.model.PaginatedResult
 import io.ktor.server.plugins.*
 import io.ktor.util.collections.*
 
@@ -20,12 +21,12 @@ class InMemoryFactRepository : FactRepository {
         } ?: throw NotFoundException()
     }
 
-    override fun getFacts(offset: Int, limit: Int): List<Fact> {
-        return this.facts.values.drop(offset).take(limit)
+    override fun getFacts(offset: Int, limit: Int): PaginatedResult<Fact> {
+        return PaginatedResult(this.facts.values.drop(offset).take(limit), this.facts.size)
     }
 
-    override fun getStatistics(offset: Int, limit: Int, sort: SortOrder?): List<FactStats> {
-        return this.facts.values
+    override fun getStatistics(offset: Int, limit: Int, sort: SortOrder?): PaginatedResult<FactStats> {
+        val allStats = this.facts.values
             .map { FactStats(it, this.accessStats[it.shortId] ?: 0) }
             .let { list ->
                 when (sort) {
@@ -34,6 +35,6 @@ class InMemoryFactRepository : FactRepository {
                     else -> list
                 }
             }
-            .drop(offset).take(limit)
+        return PaginatedResult(allStats.drop(offset).take(limit), allStats.size)
     }
 }

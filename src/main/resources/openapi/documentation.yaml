@@ -26,19 +26,27 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Fact'
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Fact'
+                  count:
+                    type: integer
+                    minimum: 0
       parameters:
         - in: query
           name: offset
           schema:
             type: integer
+            minimum: 0
           description: The number of facts to skip before starting to collect the result set
         - in: query
           name: limit
           schema:
             type: integer
+            minimum: 0
           description: The numbers of facts to return
 
   /facts/{shortenedUrl}:
@@ -73,19 +81,27 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/FactStats'
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FactStats'
+                  count:
+                    type: integer
+                    minimum: 0
       parameters:
         - in: query
           name: offset
           schema:
             type: integer
+            minimum: 0
           description: The number of stats to skip before starting to collect the result set
         - in: query
           name: limit
           schema:
             type: integer
+            minimum: 0
           description: The numbers of stats to return
         - in: query
           name: order

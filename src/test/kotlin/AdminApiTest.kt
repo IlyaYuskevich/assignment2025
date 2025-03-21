@@ -4,6 +4,7 @@ import com.challenge.mocks.createConfigMock
 import com.challenge.mocks.createTestClient
 import com.challenge.mocks.createTestFactRepository
 import com.challenge.model.FactStats
+import com.challenge.model.PaginatedResult
 import com.challenge.resources.Admin
 import com.challenge.resources.Facts
 import io.ktor.client.*
@@ -41,16 +42,16 @@ class AdminApiTest {
             header(HttpHeaders.Authorization, "Bearer admin-access-token")
         }.apply {
             assertEquals(HttpStatusCode.OK, status)
-        }.body<List<FactStats>>()
-        client.get(Facts.ShortId(shortId = stats[0].fact.shortId)).apply {
+        }.body<PaginatedResult<FactStats>>()
+        client.get(Facts.ShortId(shortId = stats.data[0].fact.shortId)).apply {
             assertEquals(HttpStatusCode.OK, status)
         }
         client.get(Admin.Statistics()) {
             header(HttpHeaders.Authorization, "Bearer admin-access-token")
         }.apply {
-            val updatedStats = body<List<FactStats>>()
-            assertEquals(stats[0].accessCount + 1, updatedStats[0].accessCount)
-            assertEquals(stats[1].accessCount, updatedStats[1].accessCount)
+            val updatedStats = body<PaginatedResult<FactStats>>()
+            assertEquals(stats.data[0].accessCount + 1, updatedStats.data[0].accessCount)
+            assertEquals(stats.data[1].accessCount, updatedStats.data[1].accessCount)
         }
     }
 }
