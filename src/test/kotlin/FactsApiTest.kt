@@ -16,7 +16,26 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+/**
+ * Unit tests for the Facts API.
+ *
+ * This test suite verifies that:
+ * - Facts can be created via POST requests.
+ * - Facts are stored and retrieved correctly.
+ * - Facts can be accessed by their short ID.
+ */
 class FactsApiTest {
+
+    /**
+     * Sets up the test environment for API calls.
+     *
+     * - Mocks application configuration.
+     * - Creates a test HTTP client.
+     * - Configures external service mocks.
+     * - Initializes the application with the configured client.
+     *
+     * @return Configured [HttpClient] for making test API requests.
+     */
     private fun ApplicationTestBuilder.setup(): HttpClient {
         createConfigMock()
         val client = createTestClient()
@@ -26,6 +45,16 @@ class FactsApiTest {
         }
         return client
     }
+
+    /**
+     * Tests fact creation, retrieval, and lookup by short ID.
+     *
+     * **Test Flow:**
+     * 1. Creates a new fact via a POST request.
+     * 2. Creates a second fact and verifies the response.
+     * 3. Fetches all stored facts and checks if they match expectations.
+     * 4. Retrieves a fact by its short ID and ensures it's correctly returned.
+     */
     @Test
     fun testFacts() = testApplication {
         val client = setup()

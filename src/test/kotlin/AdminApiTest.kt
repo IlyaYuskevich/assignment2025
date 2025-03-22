@@ -16,8 +16,20 @@ import io.ktor.server.testing.*
 import org.junit.Test
 import kotlin.test.assertEquals
 
-
+/**
+ * Unit tests for the Admin API, verifying authentication and statistics retrieval.
+ */
 class AdminApiTest {
+
+    /**
+     * Sets up the test environment for API calls.
+     *
+     * - Mocks application configuration.
+     * - Creates a test HTTP client.
+     * - Initializes the application with a test client and a pre-populated fact repository.
+     *
+     * @return Configured [HttpClient] for making test API requests.
+     */
     private fun ApplicationTestBuilder.setup(): HttpClient {
         createConfigMock()
         val client = createTestClient()
@@ -27,6 +39,13 @@ class AdminApiTest {
         return client
     }
 
+
+    /**
+     * Tests unauthorized access to the Admin Statistics endpoint.
+     *
+     * Expected behavior:
+     * - A request without an authorization token should return `401 Unauthorized`.
+     */
     @Test
     fun nonAuthorized() = testApplication {
         val client = setup()
@@ -35,6 +54,19 @@ class AdminApiTest {
         }
     }
 
+    /**
+     * Tests the retrieval and update of access statistics in the Admin API.
+     *
+     * Steps:
+     * 1. Retrieves the initial statistics with a valid admin token.
+     * 2. Accesses a specific fact endpoint.
+     * 3. Fetches the statistics again to verify that the access count has increased correctly.
+     *
+     * Expected behavior:
+     * - The initial statistics should be retrieved successfully.
+     * - Accessing a fact should increase its access count.
+     * - The updated statistics should reflect the new access count.
+     */
     @Test
     fun testStatistics() = testApplication {
         val client = setup()
