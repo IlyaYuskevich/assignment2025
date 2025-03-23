@@ -40,6 +40,10 @@ You can explore the API documentation via Swagger UI:
 
 ---
 
+## **Frontend**
+
+See `README.md` in the `./frontend` directory to run frontend application.
+
 ## **API Endpoints**
 
 ### **Get Random Fact**
