@@ -16,8 +16,8 @@ A simple Ktor-based backend API that serves random facts. The application runs o
 
 ### **1. Unzip the Repository**
 ```sh
-unzip deutschebank.zip -d deutschebank 
-cd deutschebank
+unzip assignment2025.zip -d assignment2025
+cd assignment2025
 git log  # Verify commit history is intact
 chmod +x ./gradlew  # make the gradlew Gradle helper script executable
 ```
